@@ -18,10 +18,11 @@ public class NonBlockingServer {
 	private ByteBuffer buffer = ByteBuffer.allocate(2 * 1024);
 
 	private void startEchoServer() {
-		try (Selector selector = Selector.open();
-				ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) { // java 1.7의 소괄호 
+		// java 1.7은 try가 끝나면 소괄호 안의 자원을 자동으로 해제해준다. 
+		try (Selector selector = Selector.open();// Selector는 등록된 채널 변경사항을 검사하고 접근할 수 있도록 해준다.
+				ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) { // 논블로킹 서버의 소켓 생성, 소켓을 먼저 생성하고 포트를 바인딩함.
 
-			if ((serverSocketChannel.isOpen()) && (selector.isOpen())) {
+			if ((serverSocketChannel.isOpen()) && (selector.isOpen())) { // 잘 열렸는지 확인 
 				serverSocketChannel.configureBlocking(false);
 				serverSocketChannel.bind(new InetSocketAddress(8888));
 
@@ -29,6 +30,7 @@ public class NonBlockingServer {
 				System.out.println("접속 대기중");
 
 				while (true) {
+					
 					selector.select();
 					Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
