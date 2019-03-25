@@ -14,11 +14,11 @@ public class BlockingServer {
 
 	private void run() throws IOException {
 		ServerSocket servers = new ServerSocket(8888);
-		System.out.println("Á¢¼Ó´ë±âÁß");
+		System.out.println("ì ‘ì†ëŒ€ê¸°ì¤‘");
 	
 		while (true) {
 			Socket sock = servers.accept();
-			System.out.println("Å¬¶óÀÌ¾ğÆ® ¿¬°áµÊ");
+			System.out.println("í´ë¼ì´ì–¸íŠ¸ ì—°ê²°ë¨");
 			
 			OutputStream out = sock.getOutputStream();
 			InputStream in = sock.getInputStream();

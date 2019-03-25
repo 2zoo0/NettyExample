@@ -18,16 +18,16 @@ public class NonBlockingServer {
 	private ByteBuffer buffer = ByteBuffer.allocate(2 * 1024);
 
 	private void startEchoServer() {
-		// java 1.7Àº try°¡ ³¡³ª¸é ¼Ò°ıÈ£ ¾ÈÀÇ ÀÚ¿øÀ» ÀÚµ¿À¸·Î ÇØÁ¦ÇØÁØ´Ù. 
-		try (Selector selector = Selector.open();// Selector´Â µî·ÏµÈ Ã¤³Î º¯°æ»çÇ×À» °Ë»çÇÏ°í Á¢±ÙÇÒ ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
-				ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) { // ³íºí·ÎÅ· ¼­¹öÀÇ ¼ÒÄÏ »ı¼º, ¼ÒÄÏÀ» ¸ÕÀú »ı¼ºÇÏ°í Æ÷Æ®¸¦ ¹ÙÀÎµùÇÔ.
+		// java 1.7ì€ tryê°€ ëë‚˜ë©´ ì†Œê´„í˜¸ ì•ˆì˜ ìì›ì„ ìë™ìœ¼ë¡œ í•´ì œí•´ì¤€ë‹¤. 
+		try (Selector selector = Selector.open();// SelectorëŠ” ë“±ë¡ëœ ì±„ë„ ë³€ê²½ì‚¬í•­ì„ ê²€ì‚¬í•˜ê³  ì ‘ê·¼í•  ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤.
+				ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) { // ë…¼ë¸”ë¡œí‚¹ ì„œë²„ì˜ ì†Œì¼“ ìƒì„±, ì†Œì¼“ì„ ë¨¼ì € ìƒì„±í•˜ê³  í¬íŠ¸ë¥¼ ë°”ì¸ë”©í•¨.
 
-			if ((serverSocketChannel.isOpen()) && (selector.isOpen())) { // Àß ¿­·È´ÂÁö È®ÀÎ 
+			if ((serverSocketChannel.isOpen()) && (selector.isOpen())) { // ì˜ ì—´ë ¸ëŠ”ì§€ í™•ì¸ 
 				serverSocketChannel.configureBlocking(false);
 				serverSocketChannel.bind(new InetSocketAddress(8888));
 
 				serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-				System.out.println("Á¢¼Ó ´ë±âÁß");
+				System.out.println("ì ‘ì† ëŒ€ê¸°ì¤‘");
 
 				while (true) {
 					
@@ -55,7 +55,7 @@ public class NonBlockingServer {
 				}
 
 			} else {
-				System.out.println("¼­¹ö¼ÒÄÏÀ» »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+				System.out.println("ì„œë²„ì†Œì¼“ì„ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 			}
 		} catch (IOException ex) {
 			System.out.println(ex);
@@ -63,7 +63,7 @@ public class NonBlockingServer {
 	}
 
 	/**
-	 * Á¢±ÙÇÒ ¶§ ¸Ş¼Òµå
+	 * ì ‘ê·¼í•  ë•Œ ë©”ì†Œë“œ
 	 * 
 	 * @param key
 	 * @param selector
@@ -74,14 +74,14 @@ public class NonBlockingServer {
 		SocketChannel socketChannel = serverChannel.accept();
 		socketChannel.configureBlocking(false);
 
-		System.out.println("Å¬¶óÀÌ¾ğÆ® ¿¬°áµÊ : " + socketChannel.getRemoteAddress());
+		System.out.println("í´ë¼ì´ì–¸íŠ¸ ì—°ê²°ë¨ : " + socketChannel.getRemoteAddress());
 
 		keepDataTrack.put(socketChannel, new ArrayList<byte[]>());
 		socketChannel.register(selector, SelectionKey.OP_READ);
 	}
 
 	/**
-	 * ÀĞ´Â ¸Ş¼Òµå
+	 * ì½ëŠ” ë©”ì†Œë“œ
 	 * 
 	 * @param key
 	 * @throws IOException
@@ -94,12 +94,12 @@ public class NonBlockingServer {
 			try {
 				numRead = socketChannel.read(buffer);
 			} catch (Exception e) {
-				System.err.println("µ¥ÀÌÅÍ ÀĞ±â ¿¡·¯");
+				System.err.println("ë°ì´í„° ì½ê¸° ì—ëŸ¬");
 			}
 
 			if (numRead == 1) {
 				this.keepDataTrack.remove(socketChannel);
-				System.out.println("Å¬¶óÀÌ¾ğÆ® ¿¬°á Á¾·á : " + socketChannel.getRemoteAddress());
+				System.out.println("í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ì¢…ë£Œ : " + socketChannel.getRemoteAddress());
 				socketChannel.close();
 				key.cancel();
 				return;
@@ -117,7 +117,7 @@ public class NonBlockingServer {
 	}
 
 	/**
-	 * ¾²´Â ¸Ş¼Òµå
+	 * ì“°ëŠ” ë©”ì†Œë“œ
 	 * 
 	 * @param key
 	 * @throws IOException

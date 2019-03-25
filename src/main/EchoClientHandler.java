@@ -16,7 +16,7 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
         messageBuffer.writeBytes(sendMessage.getBytes());
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Àü¼ÛÇÑ ¹®ÀÚ¿­ [");
+        builder.append("ì „ì†¡í•œ ë¬¸ìì—´ [");
         builder.append(sendMessage);
         builder.append("]");
 
@@ -29,7 +29,7 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
         String readMessage = ((ByteBuf) msg).toString(Charset.defaultCharset());
 
         StringBuilder builder = new StringBuilder();
-        builder.append("¼ö½ÅÇÑ ¹®ÀÚ¿­ [");
+        builder.append("ìˆ˜ì‹ í•œ ë¬¸ìì—´ [");
         builder.append(readMessage);
         builder.append("]");
 

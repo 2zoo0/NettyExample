@@ -13,7 +13,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         String readMessage = ((ByteBuf) msg).toString(Charset.defaultCharset());
 
         StringBuilder builder = new StringBuilder();
-        builder.append("¼ö½ÅÇÑ ¹®ÀÚ¿­ [");
+        builder.append("Â¼Ã¶Â½Ã…Ã‡Ã‘ Â¹Â®Ã€ÃšÂ¿Â­ [");
         builder.append(readMessage);
         builder.append("]");
         System.out.println(builder.toString());
